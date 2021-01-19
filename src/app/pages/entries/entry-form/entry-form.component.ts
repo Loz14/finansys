@@ -8,6 +8,8 @@ import { EntryService } from "../shared/entry.service";
 import { switchMap } from "rxjs/operators";
 
 import toastr from "toastr";
+import { Category } from '../../categories/shared/category.model';
+import { CategoryService } from '../../categories/shared/category.service';
 @Component({
   selector: 'app-entry-form',
   templateUrl: './entry-form.component.html',
@@ -21,6 +23,21 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   serverErrorMessage: string[] = null;
   submittingForm: boolean = false;
   entry: Entry = new Entry();
+  categories: Array<Category>;
+
+  ptBR = {
+    firstDayOfWeek: 0,
+    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+    dayNamesMin: ['Do', 'Se', 'Te', 'Qu', 'Qu', 'Se', 'Sa'],
+    monthNames: [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
+      'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ],
+    monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+    today: 'Hoje',
+    clear: 'Limpar'
+  }
   
   imaskConfig = {
     mask: Number,
@@ -35,12 +52,14 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
     private entryService: EntryService,
     private route: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private categoryService: CategoryService
   ) { }
 
   ngOnInit(): void {
     this.setCurrentAction();
     this.buildEntryForm();
+    this.loadCategories();
     this.loadEntry();
   }
 
@@ -55,6 +74,17 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       this.createEntry()
     else
       this.updateEntry()
+  }
+
+  get typeOptions(): Array<any>{
+    return Object.entries(Entry.types).map(
+      ([value, text]) => {
+        return {
+          text: text,
+          value: value
+        }
+      }
+    )
   }
 
   //PRIVATE METHODS
@@ -103,6 +133,12 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
           (error) => alert('Ocorreu um error no servidor, tente mais tarde!')
         )
     }
+  }
+
+  private loadCategories(){
+    this.categoryService.getAll().subscribe(
+      categories => this.categories = categories
+    )
   }
 
   private createEntry() {
