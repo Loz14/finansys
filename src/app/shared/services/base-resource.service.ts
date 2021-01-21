@@ -10,7 +10,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
     protected http: HttpClient;
 
     constructor(protected apiPath: string, protected injector: Injector) { 
-        this.http = injector.get(HttpClient);
+        this.http = injector.get(HttpClient)
     }
 
     getAll(): Observable<T[]> {
