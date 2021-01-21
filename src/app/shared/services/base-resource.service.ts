@@ -9,14 +9,18 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
 
     protected http: HttpClient;
 
-    constructor(protected apiPath: string, protected injector: Injector) { 
+    constructor(
+        protected apiPath: string, 
+        protected injector: Injector, 
+        protected jsonDataToResourceFn: (jsonData: any) => T
+        ) { 
         this.http = injector.get(HttpClient)
     }
 
     getAll(): Observable<T[]> {
         return this.http.get(this.apiPath).pipe(
-            catchError(this.handleError),
-            map(this.jsonDataToResources)
+            map(this.jsonDataToResources.bind(this)),
+            catchError(this.handleError)
         )
     }
 
@@ -24,15 +28,15 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
         const url = `${this.apiPath}/${id}`;
 
         return this.http.get(url).pipe(
-            catchError(this.handleError),
-            map(this.jsonDataToResource)
+            map(this.jsonDataToResource.bind(this)),
+            catchError(this.handleError)
         )
     }
 
     create(resource: T): Observable<T> {
         return this.http.post(this.apiPath, resource).pipe(
-            catchError(this.handleError),
-            map(this.jsonDataToResource)
+            map(this.jsonDataToResource.bind(this)),
+            catchError(this.handleError)
         )
     }
 
@@ -40,8 +44,8 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
         const url = `${this.apiPath}/${resource.id}`;
 
         return this.http.put(url, resource).pipe(
-            catchError(this.handleError),
-            map(() => resource)
+            map(() => resource),
+            catchError(this.handleError)
         )
     }
 
@@ -49,8 +53,8 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
         const url = `${this.apiPath}/${id}`;
 
         return this.http.delete(url).pipe(
-            catchError(this.handleError),
-            map(() => null)
+            map(() => null),
+            catchError(this.handleError)
         )
     }
 
@@ -58,15 +62,16 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
 
     protected jsonDataToResources(jsonData: any[]): T[] {
         const resources: T[] = [];
-        jsonData.forEach(element => resources.push(element as T));
+        jsonData.forEach(element => resources.push(this.jsonDataToResourceFn(element)));
         return resources;
     }
 
     protected jsonDataToResource(jsonData: any): T {
-        return jsonData as T;
+        return this.jsonDataToResourceFn(jsonData);
     }
 
     protected handleError(error: any): Observable<any> {
+        console.error(error)
         return throwError(error);
     }
 

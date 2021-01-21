@@ -22,7 +22,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   pageTitle: string;
   serverErrorMessage: string[] = null;
   submittingForm: boolean = false;
-  entry: Entry = new Entry();
+  entry = new Entry();
   categories: Array<Category>;
 
   ptBR = {
@@ -142,7 +142,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   }
 
   private createEntry() {
-    const entry: Entry = Object.assign(new Entry(), this.entryForm.value)
+    const entry = Entry.fromJson(this.entryForm.value)
 
     this.entryService.create(entry)
       .subscribe(
@@ -152,7 +152,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   }
 
   private updateEntry() {
-    const entry: Entry = Object.assign(new Entry(), this.entryForm.value)
+    const entry = Entry.fromJson(this.entryForm.value)
 
     this.entryService.update(entry).subscribe(
       entry => this.actionsForSuccess(entry),
