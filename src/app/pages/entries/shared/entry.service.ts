@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
+import { catchError, concatMap } from 'rxjs/operators';
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
 import { CategoryService } from '../../categories/shared/category.service';
 import { Entry } from './entry.model';
@@ -10,25 +10,25 @@ import { Entry } from './entry.model';
 })
 export class EntryService extends BaseResourceService<Entry> {
 
-  constructor(protected injector: Injector, private categoryService: CategoryService) { 
-    super("api/entries", injector, Entry.fromJson) 
+  constructor(protected injector: Injector, private categoryService: CategoryService) {
+    super("api/entries", injector, Entry.fromJson)
   }
 
   create(entry: Entry): Observable<Entry> {
-    return this.categoryService.getById(entry.categoryId).pipe(
-      concatMap(category => {
-        entry.category = category
-        return super.create(entry)
-      })
-    )
+    return this.setCategoryAndSendRoServer(entry, super.create.bind(this))
   }
 
   update(entry: Entry): Observable<Entry> {
+    return this.setCategoryAndSendRoServer(entry, super.update.bind(this))
+  }
+
+  private setCategoryAndSendRoServer(entry: Entry, sendFn: any): Observable<Entry> {
     return this.categoryService.getById(entry.categoryId).pipe(
       concatMap(category => {
         entry.category = category
-        return super.update(entry)
-      })
-    )
+        return sendFn(entry)
+      }),
+      catchError(this.handleError)
+    );
   }
 }
