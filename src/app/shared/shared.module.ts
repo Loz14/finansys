@@ -6,11 +6,12 @@ import { CalendarModule } from 'primeng/calendar';
 import { BreadCrumpComponent } from './components/bread-crump/bread-crump.component';
 import { RouterModule } from '@angular/router';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
+import { FormFieldErrorComponent } from './components/form-field-error/form-field-error.component';
 
 
 
 @NgModule({
-  declarations: [BreadCrumpComponent, PageHeaderComponent],
+  declarations: [BreadCrumpComponent, PageHeaderComponent, FormFieldErrorComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -26,7 +27,8 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
     IMaskModule,
     //components
     BreadCrumpComponent,
-    PageHeaderComponent
+    PageHeaderComponent,
+    FormFieldErrorComponent
   ]
 })
 export class SharedModule { }
