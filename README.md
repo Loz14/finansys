@@ -9,7 +9,7 @@
 </p>
 
 <h4 align="center"> 
-	🛠 Projeto Finansys 🚀 Finalizado 🛠
+	✔️ Projeto Finansys 🚀 Finalizado ✔️
 </h4>
 
 ---
