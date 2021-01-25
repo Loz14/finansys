@@ -58,7 +58,6 @@ export class ReportsComponent implements OnInit {
 
 
   private setValues(entries: Entry[]){
-    console.log("🚀 ~ ReportsComponent ~ setValues ~ entries", entries)
     this.entries = entries;
     this.calculateBalance();
     this.setChartData();
