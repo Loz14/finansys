@@ -64,7 +64,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 <a href="https://www.linkedin.com/in/la-carvalho/">
  <img style="border-radius: 50%;" src="https://avatars1.githubusercontent.com/u/51300546?s=400&u=3933e0767a90751ca7c6fb1e4ea2feccbe1d3d54&v=4" width="100px;" alt=""/>
  <br />
- <sub><b>Luiz André Carvalho</b></sub></a> <a href="https://github.com/Loz14">🚀</a>
+ <sub><b>Luiz André Carvalho</b></sub></a> <a href="https://github.com/oluizcarvalho">🚀</a>
 
 
 Feito por Luiz André 👋🏽 Entre em contato!
