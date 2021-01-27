@@ -29,7 +29,7 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 ### 🎲 Rodando o projeto
 ```bash
 # Clone este repositório
-$ git clone <https://github.com/Loz14/finansys>
+$ git clone <https://github.com/oluizcarvalho/finansys>
 
 # Acesse a pasta do projeto no terminal/cmd
 $ cd finansys
