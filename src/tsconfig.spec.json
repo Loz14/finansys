@@ -1,18 +1,20 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/spec",
+    "outDir": "./out-tsc/spec",
     "types": [
-      "jasmine",
+      "jest", // Registre os arquivos de definições de tipo de Jest com o compilador TypeScript.
       "node"
-    ]
+    ],
+    "esModuleInterop": true, // caso contrário, Jest gerará muitos avisos no console.
+    "emitDecoratorMetadata": true // caso contrário, Angular's Dependency Injection não funcionará com Jest.
   },
   "files": [
-    "test.ts",
-    "polyfills.ts"
+    "src/test.ts",
+    "src/polyfills.ts"
   ],
   "include": [
-    "**/*.spec.ts",
-    "**/*.d.ts"
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
   ]
 }
