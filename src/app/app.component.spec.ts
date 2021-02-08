@@ -27,8 +27,8 @@ describe('Component snapshots', () => {
         })
     );
 
-    it("can run a test", () => {
-        expect(1).toEqual(1);
+    it('should create', () => {
+        expect(component).toBeDefined();
     });
 
 })
